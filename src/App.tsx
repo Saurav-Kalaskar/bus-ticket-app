@@ -17,13 +17,26 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      {/* Base inactive ticket screen - always visible */}
       <TicketDisplay
-        isActivated={isActivated}
-        activationTime={activationTime}
+        isActivated={false}
+        activationTime={null}
         onActivate={handleActivateTicket}
         onReset={handleResetTicket}
       />
+      
+      {/* Active ticket overlay - shows on top when activated */}
+      {isActivated && (
+        <div className="fixed inset-0 z-50 bg-background">
+          <TicketDisplay
+            isActivated={true}
+            activationTime={activationTime}
+            onActivate={handleActivateTicket}
+            onReset={handleResetTicket}
+          />
+        </div>
+      )}
     </div>
   );
 }
