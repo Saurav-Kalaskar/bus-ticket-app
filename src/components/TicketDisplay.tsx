@@ -76,25 +76,25 @@ const TicketDisplay = ({
   if (!isActivated) {
     // Inactive ticket page
     return (
-      <div className="min-h-screen bg-background flex flex-col">
+      <div className="min-h-screen bg-background flex flex-col justify-center py-6">
         {/* Header */}
-        <div className="text-center pt-20 pb-12">
-          <h1 className="text-6xl font-black text-foreground mb-3 tracking-tight" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>DART</h1>
-          <p className="text-muted-foreground text-lg font-medium px-4" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>Detroit Area Regional Transportation</p>
+        <div className="text-center mb-6">
+          <h1 className="text-4xl font-black text-foreground mb-1 tracking-tight" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>DART</h1>
+          <p className="text-muted-foreground text-sm font-medium px-4" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>Detroit Area Regional Transportation</p>
         </div>
 
-        {/* Ticket Type Badge */}
-        <div className="mx-6 mb-8">
-          <div className="bg-secondary rounded-lg p-6 text-center shadow-lg border border-border">
-            <h2 className="text-xl font-bold text-secondary-foreground mb-4" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>Select Pass Type</h2>
+        {/* Ticket Type Selection */}
+        <div className="mx-6 mb-6">
+          <div className="bg-secondary rounded-lg p-4 text-center shadow-lg border border-border">
+            <h2 className="text-base font-bold text-secondary-foreground mb-3" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>Select Pass Type</h2>
             
             {/* Ticket Options Grid */}
-            <div className="space-y-3">
+            <div className="space-y-2">
               {ticketOptions.map((option) => (
                 <button
                   key={option.id}
                   onClick={() => handleTicketSelect(option.name)}
-                  className={`w-full p-4 rounded-lg border-2 transition-all duration-200 ${
+                  className={`w-full p-2.5 rounded-lg border-2 transition-all duration-200 ${
                     selectedTicket === option.name
                       ? 'border-primary bg-primary/5 shadow-md'
                       : 'border-border bg-background hover:border-primary/50'
@@ -102,15 +102,15 @@ const TicketDisplay = ({
                 >
                   <div className="flex justify-between items-center">
                     <div className="text-left">
-                      <h3 className="font-semibold text-foreground" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>
+                      <h3 className="font-semibold text-foreground text-sm" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>
                         {option.name}
                       </h3>
-                      <p className="text-sm text-muted-foreground" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>
+                      <p className="text-xs text-muted-foreground" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>
                         Valid for {option.duration}
                       </p>
                     </div>
                     <div className="text-right">
-                      <span className="text-lg font-bold text-primary" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>
+                      <span className="text-sm font-bold text-primary" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>
                         {option.price}
                       </span>
                     </div>
@@ -122,23 +122,23 @@ const TicketDisplay = ({
         </div>
 
         {/* Main Ticket Info */}
-        <div className="mx-6 mb-8 flex-1">
+        <div className="mx-6 mb-6">
           <div className="ticket-card">
-            <h3 className="text-2xl font-bold text-card-foreground mb-4 tracking-tight" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>
+            <h3 className="text-lg font-bold text-card-foreground mb-2 tracking-tight" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>
               Regional Full Fare {selectedTicket}
             </h3>
-            <p className="text-muted-foreground text-lg mb-6 font-medium" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>
+            <p className="text-muted-foreground text-sm mb-3 font-medium" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>
               Valid for {ticketOptions.find(opt => opt.name === selectedTicket)?.duration || '4 hours'} from activation
             </p>
-            <p className="text-transit-text text-lg font-semibold" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>Detroit, MI</p>
+            <p className="text-transit-text text-sm font-semibold" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>Detroit, MI</p>
           </div>
         </div>
 
         {/* Activate Button */}
-        <div className="mx-6 mb-16">
+        <div className="mx-6">
           <button
             onClick={onActivate}
-            className="w-full bg-primary text-primary-foreground text-xl font-bold py-6 rounded-2xl shadow-xl hover:bg-primary/90 active:bg-primary/80 transition-all duration-300 ease-smooth"
+            className="w-full bg-primary text-primary-foreground text-base font-bold py-3.5 rounded-2xl shadow-xl hover:bg-primary/90 active:bg-primary/80 transition-all duration-300 ease-smooth"
             style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}
           >
             Activate {selectedTicket}
