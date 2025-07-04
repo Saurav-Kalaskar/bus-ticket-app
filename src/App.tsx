@@ -5,6 +5,7 @@ import './App.css';
 function App() {
   const [isActivated, setIsActivated] = useState(false);
   const [activationTime, setActivationTime] = useState<Date | null>(null);
+  const [selectedTicketType, setSelectedTicketType] = useState('4 Hour Pass');
 
   const handleActivateTicket = () => {
     setIsActivated(true);
@@ -16,6 +17,10 @@ function App() {
     setActivationTime(null);
   };
 
+  const handleTicketTypeSelect = (ticketType: string) => {
+    setSelectedTicketType(ticketType);
+  };
+
   return (
     <div className="min-h-screen bg-background relative">
       {/* Base inactive ticket screen - always visible */}
@@ -24,6 +29,8 @@ function App() {
         activationTime={null}
         onActivate={handleActivateTicket}
         onReset={handleResetTicket}
+        selectedTicketType={selectedTicketType}
+        onTicketTypeSelect={handleTicketTypeSelect}
       />
       
       {/* Active ticket overlay - shows on top when activated */}
@@ -34,6 +41,8 @@ function App() {
             activationTime={activationTime}
             onActivate={handleActivateTicket}
             onReset={handleResetTicket}
+            selectedTicketType={selectedTicketType}
+            onTicketTypeSelect={handleTicketTypeSelect}
           />
         </div>
       )}

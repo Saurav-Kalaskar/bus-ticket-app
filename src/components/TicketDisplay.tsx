@@ -7,6 +7,8 @@ interface TicketDisplayProps {
   activationTime: Date | null;
   onActivate: () => void;
   onReset: () => void;
+  selectedTicketType?: string;
+  onTicketTypeSelect?: (ticketType: string) => void;
 }
 
 const TicketDisplay = ({
@@ -14,8 +16,25 @@ const TicketDisplay = ({
   activationTime,
   onActivate,
   onReset,
+  selectedTicketType = '4 Hour',
+  onTicketTypeSelect,
 }: TicketDisplayProps) => {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [selectedTicket, setSelectedTicket] = useState(selectedTicketType);
+
+  const ticketOptions = [
+    { id: '4-hour', name: '4 Hour', duration: '4 hours', price: '$2.00' },
+    { id: '24-hour', name: '24 Hour', duration: '24 hours', price: '$5.00' },
+    { id: '7-day', name: '7 Day', duration: '7 days', price: '$22.00' },
+    { id: '31-day', name: '31 Day', duration: '31 days', price: '$70.00' },
+  ];
+
+  const handleTicketSelect = (ticketType: string) => {
+    setSelectedTicket(ticketType);
+    if (onTicketTypeSelect) {
+      onTicketTypeSelect(ticketType);
+    }
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -37,6 +56,23 @@ const TicketDisplay = ({
     return `${datePart} at ${timePart}`;
   };
 
+  const calculateExpiryTime = (activationTime: Date, ticketType: string) => {
+    const selectedOption = ticketOptions.find(opt => opt.name === ticketType);
+    
+    switch (selectedOption?.id) {
+      case '4-hour':
+        return addHours(activationTime, 4);
+      case '24-hour':
+        return addHours(activationTime, 24);
+      case '7-day':
+        return addHours(activationTime, 24 * 7); // 7 days
+      case '31-day':
+        return addHours(activationTime, 24 * 31); // 31 days
+      default:
+        return addHours(activationTime, 4); // Default to 4 hours
+    }
+  };
+
   if (!isActivated) {
     // Inactive ticket page
     return (
@@ -50,15 +86,50 @@ const TicketDisplay = ({
         {/* Ticket Type Badge */}
         <div className="mx-6 mb-8">
           <div className="bg-secondary rounded-lg p-6 text-center shadow-lg border border-border">
-            <h2 className="text-xl font-bold text-secondary-foreground" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>4 Hour Pass</h2>
+            <h2 className="text-xl font-bold text-secondary-foreground mb-4" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>Select Pass Type</h2>
+            
+            {/* Ticket Options Grid */}
+            <div className="space-y-3">
+              {ticketOptions.map((option) => (
+                <button
+                  key={option.id}
+                  onClick={() => handleTicketSelect(option.name)}
+                  className={`w-full p-4 rounded-lg border-2 transition-all duration-200 ${
+                    selectedTicket === option.name
+                      ? 'border-primary bg-primary/5 shadow-md'
+                      : 'border-border bg-background hover:border-primary/50'
+                  }`}
+                >
+                  <div className="flex justify-between items-center">
+                    <div className="text-left">
+                      <h3 className="font-semibold text-foreground" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>
+                        {option.name}
+                      </h3>
+                      <p className="text-sm text-muted-foreground" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>
+                        Valid for {option.duration}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-lg font-bold text-primary" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>
+                        {option.price}
+                      </span>
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
         {/* Main Ticket Info */}
         <div className="mx-6 mb-8 flex-1">
           <div className="ticket-card">
-            <h3 className="text-2xl font-bold text-card-foreground mb-4 tracking-tight" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>Regional Full Fare 4 Hour</h3>
-            <p className="text-muted-foreground text-lg mb-6 font-medium" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>Valid for 4 hours from activation</p>
+            <h3 className="text-2xl font-bold text-card-foreground mb-4 tracking-tight" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>
+              Regional Full Fare {selectedTicket}
+            </h3>
+            <p className="text-muted-foreground text-lg mb-6 font-medium" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>
+              Valid for {ticketOptions.find(opt => opt.name === selectedTicket)?.duration || '4 hours'} from activation
+            </p>
             <p className="text-transit-text text-lg font-semibold" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>Detroit, MI</p>
           </div>
         </div>
@@ -70,7 +141,7 @@ const TicketDisplay = ({
             className="w-full bg-primary text-primary-foreground text-xl font-bold py-6 rounded-2xl shadow-xl hover:bg-primary/90 active:bg-primary/80 transition-all duration-300 ease-smooth"
             style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}
           >
-            Activate Ticket
+            Activate {selectedTicket}
           </button>
         </div>
       </div>
@@ -125,11 +196,13 @@ const TicketDisplay = ({
         </div>
         
         <div className="ticket-card pt-5 px-6">
-          <h3 className="text-2xl font-normal text-foreground mb-1 text-left text" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>Regional Full Fare 4 Hour</h3>
+          <h3 className="text-2xl font-normal text-foreground mb-1 text-left text" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>
+            Regional Full Fare {selectedTicket}
+          </h3>
           <p className="text-muted-foreground font-normal text-sm mb-6 text-left" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>Detroit, MI</p>
           {activationTime && (
             <p className="text-lg text-foreground font-semibold text-left" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif', fontWeight: '400' }}>
-              Expires {formatExpiryDate(addHours(activationTime, 4))}
+              Expires {formatExpiryDate(calculateExpiryTime(activationTime, selectedTicket))}
             </p>
           )}
         </div>
