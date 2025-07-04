@@ -151,7 +151,7 @@ html {
 /* Ticket card styling to match exact screenshot */
 .ticket-card {
   background: #ffffff;
-  border-radius: 16px;
+  border-radius: 8px; /* Much more subtle rounded corners */
   padding: 20px;
   margin: 0 16px;
   position: relative;
