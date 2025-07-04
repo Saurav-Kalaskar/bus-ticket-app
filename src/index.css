@@ -156,14 +156,11 @@ html {
   margin: 0 16px;
   position: relative;
   
-  /* Very subtle borders on top, left, and right - barely visible */
-  border-top: 0.5px solid rgba(0, 0, 0, 0.06);
-  border-left: 0.5px solid rgba(0, 0, 0, 0.06);
-  border-right: 0.5px solid rgba(0, 0, 0, 0.06);
-  border-bottom: none;
-  
-  /* Only bottom shadow - no top, left, or right shadows */
-  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.05);
+  /* Very subtle borders on all sides */
+  border-top: 0.5px solid rgba(0, 0, 0, 0.1);
+  border-left: 0.5px solid rgba(0, 0, 0, 0.1);
+  border-right: 0.5px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 3px solid rgba(0, 0, 0, 0.2); /* Clear visible bottom line */
 }
 
 /* iPhone 14 Pro Max specific */

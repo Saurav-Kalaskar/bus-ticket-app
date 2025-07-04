@@ -128,7 +128,7 @@ const TicketDisplay = ({
           <h3 className="text-2xl font-normal text-foreground mb-1 text-left text" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>Regional Full Fare 4 Hour</h3>
           <p className="text-muted-foreground font-normal text-sm mb-6 text-left" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>Detroit, MI</p>
           {activationTime && (
-            <p className="text-lg text-foreground font-normal text-left" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif' }}>
+            <p className="text-lg text-foreground font-semibold text-left" style={{ fontFamily: '"SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif', fontWeight: '400' }}>
               Expires {formatExpiryDate(addHours(activationTime, 4))}
             </p>
           )}
